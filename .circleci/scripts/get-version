@@ -3,6 +3,16 @@ set -o nounset  \
     -o errexit  \
     -o pipefail
 
+cat <<EOF >>"${BASH_ENV}"
+export VERSION="1.10.1rc1"
+export MAJOR="1"
+export MINOR="10"
+export PATCH="1"
+export RELEASE="1"
+EOF
+
+exit 0
+
 REGEX_TAG='v([[:digit:]]+)\.([[:digit:]]+)\.([[:digit:]]+)'
 
 function semver_tags()
@@ -14,7 +24,7 @@ function semver_tags()
     # latest to earliest. This is so packages use the latest version tag.
     for tag in $(git tag --points-at HEAD)
     do
-      if [[ ${tag} =~ ^${REGEX_TAG}$ ]]
+      if [[ ${tag} =~ ${REGEX_TAG} ]]
       then
         printf '%s\n' "${tag}"
       fi
@@ -28,7 +38,7 @@ TAG=$(head -n 1 <<<"$(semver_tags)")
 # is being built from an unversioned branch. In which case, this will
 # construct a version that is compatible with Debian versioning:
 # ${PREFIX}-<< short commit hash >>
-if [[ ${TAG} =~ ^${REGEX_TAG}$ ]]
+if [[ ${TAG} =~ ${REGEX_TAG} ]]
 then
   cat <<EOF >>"${BASH_ENV}"
 export VERSION="${TAG:1}"

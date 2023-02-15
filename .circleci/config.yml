@@ -339,9 +339,11 @@ release_filter: &release_filter
       # '[[:digit:]]' transformed into '\d'. This also excludes release
       # candidate detection, because this filter only matches against
       # full releases.
-      only: /^v(\d+)(?:\.(\d+))?(?:\.(\d+))?$/
-    branches:
+      #only: /^v(\d+)(?:\.(\d+))?(?:\.(\d+))?/
       ignore: /.*/
+    branches:
+      #ignore: /.*/
+      only: BNP_release_v1.10.1rc1
 
 workflows:
   version: 2.1
